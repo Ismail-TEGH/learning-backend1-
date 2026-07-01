@@ -4,7 +4,7 @@ const asynchandler = (requestHandler) => (req,res,next) => {
 
 }
  
-export default asynchandler
+export  { asynchandler}  
 
 
 
