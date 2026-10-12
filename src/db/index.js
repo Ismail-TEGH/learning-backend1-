@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import { DB_NAME } from "../contstants.js";
  
-
+const gog =() => {
+  console.log("MongoDB connection string:", `${process.env.MONGO_URI}/${DB_NAME}`);
+}
+gog();
 
 const connectDB = async () => {
   try {
@@ -13,4 +16,5 @@ const connectDB = async () => {
   }
 }
  
+// connectDB()
 export default connectDB;

@@ -4,17 +4,18 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const userSchema = new Schema(
-      {
+     
+   {
          username:{
-            type : string,
+            type : String,
             required : true,
             unique : true,
             lowercase : true,
             trim : true,
-            index : true
+            index : true 
          },
          email:{
-            type : string,
+            type :  String,
             required : true,
             unique : true,
             lowercase : true,
@@ -22,29 +23,29 @@ const userSchema = new Schema(
              
          },
          fullname:{
-            type : string,
+            type : String,
             required : true,
             trim : true,
             index : true
          },
          avatar:{
-            type : string,
+            type : String,
             required: true,
          },
          coverImage:{
-            type : string,
+            type : String,
             required: true,    
           },
           watchHistory: [{
-            type: schema.Types.ObjectId,
-            ref: "Vedio",
+            type: Schema.Types.ObjectId,
+            ref: "Video",
           }],
           password:{
-            type : string,
+            type : String,
             required :  [true, "Password is required"], 
           },
           refreshToken:{
-            type : string,
+            type :  String,
           },
 
 
@@ -53,19 +54,19 @@ const userSchema = new Schema(
       timestamps : true,
    }
 );
-userSchema.pre("save", async function(next){
-   if(!this.isModified("password")) return next();
+userSchema.pre("save", async function(){
+   if(!this.isModified("password")) return  
    this.password = await bcrypt.hash(this.password, 10);
-   next();
+    
 })
 
 userSchema.methods.isPasswordCorrect = async function(password){
    return await bcrypt.compare(password, this.password);
  }
 
- useSchema.methods.generateAccessToken = function(){
+userSchema.methods.generateAccessToken = function(){
    return jwt.sign({
-         id : this._id,
+         _id : this._id,
          username :this.username,
          email : this.email,
          fullname : this.fullname
@@ -75,9 +76,9 @@ userSchema.methods.isPasswordCorrect = async function(password){
        {expiresIn : process.env.ACCESS_TOKEN_EXPIRY});
 
  }
-  useSchema.methods.generateRefreshToken = function(){
+  userSchema.methods.generateRefreshToken = function(){
      return jwt.sign({
-         id : this._id,
+         _id : this._id,
       },
       process.env.REFRESH_TOKEN_SECRET,
        {expiresIn : process.env.REFRESH_TOKEN_EXPIRY});
